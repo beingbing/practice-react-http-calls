@@ -7,20 +7,18 @@ function App() {
 
   const [movies, setMovies] = useState([]);
 
-  const fetchMoviesHandler = () => {
-    fetch('https://swapi.py4e.com/api/films').then(response => {
-      return response.json(); // transform json stringified result into JS object
-    }).then(data => {
-      const transformedMovies = data.results.map(movie => {
-        return {
-          id: movie.episode_id,
-          title: movie.title,
-          openingText: movie.opening_crawl,
-          releaseDate: movie.release_date
-        }
-      })
-      setMovies(transformedMovies);
-    });
+  const fetchMoviesHandler = async () => {
+    const response = await fetch('https://swapi.py4e.com/api/films');
+    const data = await response.json();
+    const transformedMovies = data.results.map(movie => {
+      return {
+        id: movie.episode_id,
+        title: movie.title,
+        openingText: movie.opening_crawl,
+        releaseDate: movie.release_date
+      }
+    })
+    setMovies(transformedMovies);
   };
 
   return (
