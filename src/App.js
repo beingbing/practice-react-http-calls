@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import MoviesList from './components/MoviesList';
+import AddMovie from './components/AddMovie';
 import './App.css';
 
 function App() {
@@ -25,11 +26,10 @@ function App() {
           title: movie.title,
           openingText: movie.opening_crawl,
           releaseDate: movie.release_date
-        }
-      })
+        };
+      });
       setMovies(transformedMovies);
     } catch (error) {
-      console.log('error: ', error);
       setError(error.message);
     }
     setIsLoading(false);
@@ -39,10 +39,14 @@ function App() {
     fetchMoviesHandler();
   }, [fetchMoviesHandler]);
 
-  let content = <p>Found no movies</p>;
+  function addMovieHandler(movie) {
+    console.log(movie);
+  }
+
+  let content = <p>Found no movies.</p>;
 
   if (movies.length > 0) {
-    content = <MoviesList movies={movies} />
+    content = <MoviesList movies={movies} />;
   }
 
   if (error) {
@@ -50,11 +54,14 @@ function App() {
   }
 
   if (isLoading) {
-    content = <p>Loading ...</p>;
+    content = <p>Loading...</p>;
   }
 
   return (
     <React.Fragment>
+      <section>
+        <AddMovie onAddMovie={addMovieHandler} />
+      </section>
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
